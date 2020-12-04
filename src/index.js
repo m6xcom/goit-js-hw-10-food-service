@@ -12,29 +12,33 @@ const currentTheme = localStorage.getItem('theme');
 
 const themeController = document.querySelector('.theme-switch__toggle');
 
-if (currentTheme === 'dark') {
-  bodyTheme.classList.remove('light-theme');
-  bodyTheme.classList.add('dark-theme');
+const Theme = {
+  LIGHT: 'light-theme',
+  DARK: 'dark-theme',
+};
+
+if (currentTheme === Theme.DARK) {
+  bodyTheme.classList.add(Theme.DARK);
   themeController.checked = true;
-} else if (currentTheme === 'light') {
-  bodyTheme.classList.add('light-theme');
-  bodyTheme.classList.remove('dark-theme');
+} else {
+  bodyTheme.classList.add(Theme.LIGHT);
 }
 
 const posts = cardTemplate(menu);
 
 menuList.insertAdjacentHTML('afterbegin', posts);
 
-const changeTheme = event => {
-  if (event.target.checked) {
-    bodyTheme.classList.remove('light-theme');
-    bodyTheme.classList.add('dark-theme');
-    localStorage.setItem('theme', 'dark');
+const changeTheme = () => {
+  let oldTheme = localStorage.getItem('theme');
+  let newTheme;
+  if (oldTheme === Theme.DARK) {
+    newTheme = Theme.LIGHT;
   } else {
-    bodyTheme.classList.add('light-theme');
-    bodyTheme.classList.remove('dark-theme');
-    localStorage.setItem('theme', 'light');
+    newTheme = Theme.DARK;
   }
+  bodyTheme.classList.remove(oldTheme);
+  bodyTheme.classList.add(newTheme);
+  localStorage.setItem('theme', newTheme);
 };
 
 themeController.addEventListener('change', changeTheme);
