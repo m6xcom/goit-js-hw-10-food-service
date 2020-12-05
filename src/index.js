@@ -28,17 +28,17 @@ const posts = cardTemplate(menu);
 
 menuList.insertAdjacentHTML('afterbegin', posts);
 
-const changeTheme = () => {
-  let oldTheme = localStorage.getItem('theme');
-  let newTheme;
-  if (oldTheme === Theme.DARK) {
-    newTheme = Theme.LIGHT;
-  } else {
-    newTheme = Theme.DARK;
-  }
+const changeTheme = (oldTheme, newTheme) => {
   bodyTheme.classList.remove(oldTheme);
   bodyTheme.classList.add(newTheme);
   localStorage.setItem('theme', newTheme);
 };
 
-themeController.addEventListener('change', changeTheme);
+const handleCheckboxChange = event => {
+  if (event.target.checked) {
+    changeTheme(Theme.LIGHT, Theme.DARK);
+  } else {
+    changeTheme(Theme.DARK, Theme.LIGHT);
+  }
+};
+themeController.addEventListener('change', handleCheckboxChange);
